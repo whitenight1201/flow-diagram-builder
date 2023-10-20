@@ -1,8 +1,14 @@
 import { useState } from "react";
+import { useBetween } from "use-between";
+import { useGlobalState } from "../../hooks";
 
-const DropdownMenu = () => {
+// custom hook for sharing state between any components
+const useSharedZoomState = () => useBetween(useGlobalState);
+
+const SelectZoomLevel = () => {
+  const { zoomLevel, setZoomLevel } = useSharedZoomState();
+
   const [isOpen, setIsOpen] = useState(false);
-  const [currentPercent, setCurrentPercent] = useState<number>(100);
 
   const percents: number[] = [25, 30, 40, 50, 60, 70, 80, 90, 100, 125, 150];
 
@@ -17,7 +23,7 @@ const DropdownMenu = () => {
           className="flex items-center justify-center w-32 h-11 p-4 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
           onClick={toggleMenu}
         >
-          {currentPercent}%
+          {zoomLevel}%
         </button>
       </div>
 
@@ -30,14 +36,17 @@ const DropdownMenu = () => {
                   key={idx}
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:font-bold border-b-[1px] border-gray-200"
                   onClick={() => {
-                    setCurrentPercent(percent);
+                    setZoomLevel(percent);
                     setIsOpen(!isOpen);
                   }}
                 >
                   {percent}%
                 </li>
-                {currentPercent == percent ? (
-                  <i style={{ fontSize: 14, color:"blue" }} className="fas fa-check"></i>
+                {zoomLevel == percent ? (
+                  <i
+                    style={{ fontSize: 14, color: "blue" }}
+                    className="fas fa-check"
+                  ></i>
                 ) : (
                   <div></div>
                 )}
@@ -50,4 +59,4 @@ const DropdownMenu = () => {
   );
 };
 
-export default DropdownMenu;
+export default SelectZoomLevel;
