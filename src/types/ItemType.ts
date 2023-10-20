@@ -4,6 +4,7 @@ export interface ItemInfo {
   y: number;
   title: string;
   outline?: string;
+  bgcolor: string;
   parent: number;
   children: number[];
   isLeaf: boolean;

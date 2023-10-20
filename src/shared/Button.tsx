@@ -28,7 +28,31 @@ const Button = ({ type, visibility, handleAction }: IButtonProps) => {
           }`}
           onClick={handleAction}
         >
-          <i style={{ fontSize: 10 }} className="fas fa-xmark">X</i>
+          <i style={{ fontSize: 10 }} className="fas fa-xmark">
+            X
+          </i>
+        </button>
+      )}
+      {type === "checkok" && (
+        <button
+          className={`focus:outline-none flex items-center justify-center w-5 h-5 rounded-full bg-green-500 text-white opacity-80 hover:opacity-90 ${
+            visibility ? "visible" : "invisible"
+          }`}
+          onClick={handleAction}
+        >
+          <i style={{ fontSize: 10 }} className="fas fa-check"></i>
+        </button>
+      )}
+      {type === "cancel" && (
+        <button
+          className={`focus:outline-none flex items-center justify-center w-5 h-5 rounded-full bg-yellow-400 text-white opacity-80 hover:opacity-90 ${
+            visibility ? "visible" : "invisible"
+          }`}
+          onClick={handleAction}
+        >
+          <i style={{ fontSize: 10 }} className="fas fa-xmark">
+            X
+          </i>
         </button>
       )}
     </div>

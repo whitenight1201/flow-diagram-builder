@@ -8,6 +8,7 @@ import Button from "../../shared/Button";
 const useSharedZoomState = () => useBetween(useGlobalState);
 
 const MainItem = ({ item, setClick, setAdd }: MainItemProps) => {
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("New Item");
   const { zoomLevel } = useSharedZoomState();
 
@@ -18,6 +19,39 @@ const MainItem = ({ item, setClick, setAdd }: MainItemProps) => {
   const handleAdd = () => {
     setAdd(item.id, title);
   };
+
+  let controlButton;
+  if (!isEditing) {
+    controlButton = (
+      <>
+        <Button type="add" handleAction={handleAdd} />
+        <Button
+          type="edit"
+          visibility={item.visiblebtn}
+          handleAction={() => setIsEditing(!isEditing)}
+        />
+      </>
+    );
+  } else {
+    controlButton = (
+      <>
+        <Button
+          type="checkok"
+          visibility={item.visiblebtn}
+          handleAction={() => {
+            setIsEditing(!isEditing);
+          }}
+        />
+        <Button
+          type="cancel"
+          visibility={item.visiblebtn}
+          handleAction={() => {
+            setIsEditing(!isEditing);
+          }}
+        />
+      </>
+    );
+  }
 
   return (
     <div style={{ transform: `scale(${zoomLevel / 100})` }}>
@@ -36,26 +70,46 @@ const MainItem = ({ item, setClick, setAdd }: MainItemProps) => {
         {item.parent !== -1 ? (
           <div
             className="bg-gray-400 opacity-30"
-            style={{ width: 1, height: 18, transform: `translateX(55px)` }}
+            style={{ width: 1, height: 19, transform: `translateX(55px)` }}
           ></div>
         ) : (
           <div style={{ height: 18 }}></div>
         )}
-        <div className="flex items-center gap-x-1 w-60">
-          <div
-            className="border-dashed border-2 bg-white px-4 py-2 mr-1"
-            onMouseDown={handleClick}
-          >
-            <span style={{ cursor: "move" }}>{item.title}</span>
-          </div>
-          <Button type="add" handleAction={handleAdd} />
-          <Button type="edit" visibility={item.visiblebtn} />
-          <Button type="delete" visibility={item.visiblebtn} />
+        <div
+          className="flex items-center gap-x-1 w-80"
+          onMouseDown={handleClick}
+        >
+          {!isEditing ? (
+            <div
+              className={` border-2 text-${
+                item.outline === "dashed" ? "black" : "white"
+              } px-4 py-2`}
+              style={{
+                borderStyle: `${item.outline}`,
+                backgroundColor: `${item.bgcolor}`,
+              }}
+              onClick={handleAdd}
+            >
+              <span style={{ cursor: "move" }}>{item.title}</span>
+            </div>
+          ) : (
+            <div>
+              <input
+                className="outline-none w-28 px-2 py-2"
+                placeholder="Category name"
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+              />
+            </div>
+          )}
+          {controlButton}
         </div>
         {!item.isLeaf ? (
           <div
             className="bg-gray-400 opacity-30"
-            style={{ width: 1, height: 18, transform: `translateX(55px)` }}
+            style={{ width: 1, height: 19, transform: `translateX(55px)` }}
           ></div>
         ) : (
           <div></div>

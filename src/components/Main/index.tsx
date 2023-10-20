@@ -22,11 +22,12 @@ const Main = () => {
         y: 70,
         title: "Categories",
         outline: "dashed",
+        bgcolor: "#FFFFFF",
         parent: -1,
         children: [],
         width: 0,
         isLeaf: true,
-        visiblebtn:false
+        visiblebtn: false,
       },
     ]);
   }, []);
@@ -48,11 +49,13 @@ const Main = () => {
       x: parentItem.x,
       y: parentItem.y + 80,
       title: title,
+      outline: "none",
+      bgcolor: "#FFA07A",
       parent: parentItem.id,
       children: [],
       isLeaf: true,
       width: 0,
-      visiblebtn: true
+      visiblebtn: true,
     };
     parentItem.children.push(newItem.id);
 
@@ -66,7 +69,6 @@ const Main = () => {
 
     let leafIndex = 0;
     let leafCenter: number = getAverageX(leafs);
-
     // Rearrange leafs
     let arr: number[] = [1];
     while (arr.length > 0) {

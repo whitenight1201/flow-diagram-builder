@@ -42,7 +42,7 @@ const SelectZoomLevel = () => {
                 >
                   {percent}%
                 </li>
-                {zoomLevel == percent ? (
+                {zoomLevel === percent ? (
                   <i
                     style={{ fontSize: 14, color: "blue" }}
                     className="fas fa-check"
